@@ -1,0 +1,3 @@
+plot \
+"test_result.txt" using 1:2 title "htry" with lines, \
+"test_result.txt" using 1:3 title "hdid" with lines \

@@ -1,0 +1,2 @@
+plot \
+"vol.txt" using 1:2 title "volume" with lines

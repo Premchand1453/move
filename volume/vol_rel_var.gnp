@@ -1,0 +1,2 @@
+plot \
+"vol.txt" using 1:3 title "vol rel var in %" with lines

@@ -1,0 +1,6 @@
+plot \
+"test_result.txt" using 1:2 title "x" with lines, \
+"test_result.txt" using 1:3 title "v" with lines, \
+"test_result.txt" using 1:4 title "KE" with lines, \
+"test_result.txt" using 1:5 title "PE" with lines, \
+"test_result.txt" using 1:6 title "E" with lines

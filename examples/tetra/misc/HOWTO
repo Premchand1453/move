@@ -1,0 +1,10 @@
+David B@piment ~/Programmes/tetra # cubeCreator 3 3 3 4 4 4
+cube.dat created
+David B@piment ~/Programmes/tetra # mv cube.dat cube.smf
+David B@piment ~/Programmes/tetra # Smf2PointFaces cube
+cube.points created
+cube.faces created
+David B@piment ~/Programmes/tetra # ghs3d -f cube
+cube.noboite created
+David B@piment ~/Programmes/tetra # NoBoite2Mesh cube
+cube.mesh file created

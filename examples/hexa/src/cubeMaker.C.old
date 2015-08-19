@@ -1,0 +1,98 @@
+#include <stdlib.h>
+#include <fstream.h>
+#include <vector>
+
+#include <animal/geometry/vec3.h>
+
+using namespace std;
+using namespace animal::geometry;
+typedef Vec3<double> vec3;
+
+void error(const char* p1, const char* p2="")
+{
+  cerr << "Error! " << p1 << " " << p2 << endl;
+  exit(1);
+}
+
+int main(int argc, char** argv)
+{
+  if (argc != 8)
+    {
+      cerr << "Usage:\tcubeMaker [width] [height] [length] "
+	   << "[subdiv w] [subdiv h] [subdiv l] [file out] " << endl;
+      exit(1);
+    }
+  
+  double width  = atof(argv[1]);
+  double height = atof(argv[2]);
+  double length = atof(argv[3]);
+  
+  int subdiv_w = atoi(argv[4]);
+  int subdiv_h = atoi(argv[5]);
+  int subdiv_l = atoi(argv[6]);
+  
+  ofstream file_out(argv[7], ios::out);
+  if ( !file_out ) error("Cannot open output file", argv[7]);
+  
+  double unit_w = width/subdiv_w;
+  double unit_h = height/subdiv_h;
+  double unit_l = length/subdiv_l;
+  
+  int ncubes = subdiv_w*subdiv_h*subdiv_l;
+  int v_w = subdiv_w + 1;
+  int v_h = subdiv_h + 1;
+  int v_l = subdiv_l + 1;
+  int nvertices = v_w*v_h*v_l;
+  
+  vector<vec3> vertices;
+  
+  int l, h, w;
+  
+  for (l = 0; l < v_l; l++)
+    for (h = 0; h < v_h; h++)
+      for (w = 0; w < v_w; w++)
+	{
+	  vertices.push_back( vec3(w*unit_w, h*unit_h, l*unit_l) );
+	}
+  
+  vector<int> v_indices;
+  
+  for (l = 0; l < subdiv_l; l++)
+    for (h = 0; h < subdiv_h; h++)
+      for (w = 0; w < subdiv_w; w++)
+	{
+	  v_indices.push_back(  w    +  h   *v_w +  l   *v_w*v_h );
+	  v_indices.push_back( (w+1) +  h   *v_w +  l   *v_w*v_h );
+	  v_indices.push_back( (w+1) + (h+1)*v_w +  l   *v_w*v_h );
+	  v_indices.push_back(  w    + (h+1)*v_w +  l   *v_w*v_h );
+	  
+	  v_indices.push_back(  w    +  h   *v_w + (l+1)*v_w*v_h );
+	  v_indices.push_back( (w+1) +  h   *v_w + (l+1)*v_w*v_h );
+	  v_indices.push_back( (w+1) + (h+1)*v_w + (l+1)*v_w*v_h );
+	  v_indices.push_back(  w    + (h+1)*v_w + (l+1)*v_w*v_h );
+	}
+  
+  file_out << nvertices << " " << ncubes << endl;
+  
+  file_out.setf(ios::fixed,ios::floatfield);
+  file_out.precision(6);
+  
+  int n;
+  
+  for (n = 0; n < nvertices; n++)
+    file_out << vertices[n].x() << " "
+	     << vertices[n].y() << " "
+	     << vertices[n].z() << "\t0" << endl;
+  
+  for (n = 0; n < ncubes; n++)
+    {
+      for (int i = n*8; i < n*8 + 8; i++)
+	file_out << v_indices[i] << "\t";
+      
+      file_out << endl;
+    }
+  
+  file_out.close();
+  
+  return 0;
+}

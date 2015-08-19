@@ -1,0 +1,12 @@
+# Put labels on a figure
+set title "Volume relative variation (in %)"
+set xlabel "Time (in s)"
+set ylabel "${\delta}V/V_0$ (in %)"
+plot "vol.dat" using 1:3 notitle with lines
+
+# Print it to a file
+set terminal postscript eps color "Times"
+set output "fig.eps"
+
+# To reset display
+set terminal x11
