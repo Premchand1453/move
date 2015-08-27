@@ -57,7 +57,7 @@ public:
   static Real acosine(Real k) { return acosf(k); }
   
   /// Detection of nan/inf values
-  static Int isfinite(Real k) { return finite( static_cast<double>(k) ); }
+  //static Int isfinite(Real k) { return finite( static_cast<double>(k) ); } // DEPRECATED
   
   /// Numerical error threshold
   static Real numthreshold() { return FLT_EPSILON; }
@@ -93,7 +93,7 @@ public:
   static Real acosine(Real k) { return acos(k); }
   
   /// Detection of nan/inf values
-  static Int isfinite(Real k) { return finite(k); }
+  //static Int isfinite(Real k) { return finite(k); } // DEPRECATED
   
   /// Numerical error threshold
   static Real numthreshold() { return DBL_EPSILON; }

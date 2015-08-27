@@ -70,7 +70,7 @@ struct Step_Doubling
   /// To take dynamic modifications of the model into account
   void resize(const typename Derivative_t::size_type size)
     {
-      solve.resize(size);
+      this->solve.resize(size);
       
       Derivative_t initial_S_copy(size);
       Derivative_t final_S_eval(size);
@@ -99,7 +99,7 @@ struct Step_Doubling
       Real_t h_2;
       
       // Derivative first evaluation
-      solve.writeDerivative(M, initial_S, initial_D, t);
+      this->solve.writeDerivative(M, initial_S, initial_D, t);
       
       while ( divide_step )
 	{
@@ -107,15 +107,15 @@ struct Step_Doubling
 	  h_2 = 0.5*h;
 	  
 	  // Take a full step
-	  solve(M, initial_S, final_S_eval, initial_D, t, h);
+	  this->solve(M, initial_S, final_S_eval, initial_D, t, h);
 	  
           // Take two half steps
-          solve(M, initial_S, final_S, initial_D, t, h_2);
-          solve(M, final_S, (t + h_2), h_2);
+          this->solve(M, initial_S, final_S, initial_D, t, h_2);
+          this->solve(M, final_S, (t + h_2), h_2);
           
-          if ( isDifferent(M, final_S_eval, final_S, t) )
+          if ( this->isDifferent(M, final_S_eval, final_S, t) )
 	    {
-	      h = hsmaller(M, initial_S, t, h);
+	      h = this->hsmaller(M, initial_S, t, h);
 #if DEBUG
 	      nbad++;
 #endif
@@ -123,7 +123,7 @@ struct Step_Doubling
 	  else
 	    {
 	      divide_step = false;
-	      h = hlarger(M, initial_S, t, h);
+	      h = this->hlarger(M, initial_S, t, h);
 #if DEBUG
 	      ngood++;
 #endif
@@ -186,8 +186,8 @@ struct Step_Back_And_Forth
 		  const Real_t t,
 		  const Real_t htry, Real_t& hdid, Real_t& hnext)
     {
-      initial_S_copy = S;
-      operator()(M, initial_S_copy, S, t, htry, hdid, hnext);
+      this->initial_S_copy = S;
+      operator()(M, this->initial_S_copy, S, t, htry, hdid, hnext);
     }
   void operator()(const Model_t& M,
 		  const State_t& initial_S,
@@ -200,18 +200,18 @@ struct Step_Back_And_Forth
       Real_t h = htry; // Stepsize to be attempted (initial trial value)
       
       // Derivative first evaluation
-      solve.writeDerivative(M, initial_S, initial_D, t);
+      this->solve.writeDerivative(M, initial_S, this->initial_D, t);
       
       while ( divide_step )
 	{
 	  hdid = h; // Stepsize that was actually accomplished
           
           // Take a step
-          solve(M, initial_S, final_S, initial_D, t, h);
+          this->solve(M, initial_S, final_S, this->initial_D, t, h);
           
-          if ( isDifferent(M, initial_S, final_S, t) )
+          if ( this->isDifferent(M, initial_S, final_S, t) )
 	    {
-	      h = hsmaller(M, initial_S, t, h);
+	      h = this->hsmaller(M, initial_S, t, h);
 #if DEBUG
 	      nbad++;
 #endif
@@ -219,7 +219,7 @@ struct Step_Back_And_Forth
 	  else
 	    {
 	      divide_step = false;
-	      h = hlarger(M, initial_S, t, h);
+	      h = this->hlarger(M, initial_S, t, h);
 #if DEBUG
 	      ngood++;
 #endif

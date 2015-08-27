@@ -1,4 +1,5 @@
-#include <stdio.h>
+#include <cstdlib>
+#include <cstring>
 #include <fstream>
 #include <animal/integration/test/explicit_solver_test.h>
 

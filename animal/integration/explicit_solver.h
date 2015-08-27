@@ -68,7 +68,7 @@ struct Euler : public Solver_Function<TraitsT,DerivativeF,StepF>
 		  State_t& final_S,
 		  const Real_t t, const Real_t h)
     {
-      writeDerivative(M, initial_S, D, t);
+      this->writeDerivative(M, initial_S, D, t);
       operator()(M, initial_S, final_S, D, t, h);
     }
   void operator()(Model_t& M,
@@ -77,7 +77,7 @@ struct Euler : public Solver_Function<TraitsT,DerivativeF,StepF>
 		  const Derivative_t& initial_D,
 		  const Real_t t, const Real_t h)
     {
-      applyStep(initial_S, final_S, initial_D, h);
+      this->applyStep(initial_S, final_S, initial_D, h);
     }
   //@}
   
@@ -152,7 +152,7 @@ struct Runge_Kutta_2 : public Solver_Function<TraitsT,DerivativeF,StepF>
 		  State_t& final_S,
 		  const Real_t t, const Real_t h)
     {
-      writeDerivative(M, initial_S, D1, t);
+      this->writeDerivative(M, initial_S, D1, t);
       operator()(M, initial_S, final_S, D1, t, h);
     }
   void operator()(const Model_t& M,
@@ -163,10 +163,10 @@ struct Runge_Kutta_2 : public Solver_Function<TraitsT,DerivativeF,StepF>
     {
       Real_t h_2 = 0.5*h;
       
-      applyStep(initial_S, tmp_S, initial_D, h_2);
+      this->applyStep(initial_S, tmp_S, initial_D, h_2);
       
-      writeDerivative( M, tmp_S, D2, (t + h_2) );
-      applyStep(initial_S, final_S, D2, h);
+      this->writeDerivative( M, tmp_S, D2, (t + h_2) );
+      this->applyStep(initial_S, final_S, D2, h);
     }
   //@}
   
@@ -247,7 +247,7 @@ struct Runge_Kutta_4 : public Solver_Function<TraitsT,DerivativeF,StepF>
 		  State_t& final_S,
 		  const Real_t t, const Real_t h)
     {
-      writeDerivative(M, initial_S, D1, t);
+      this->writeDerivative(M, initial_S, D1, t);
       operator()(M, initial_S, final_S, D1, t, h);
     }
   void operator()(const Model_t& M,
@@ -258,15 +258,15 @@ struct Runge_Kutta_4 : public Solver_Function<TraitsT,DerivativeF,StepF>
     {
       Real_t h_2 = 0.5*h;
       
-      applyStep(initial_S, tmp_S, initial_D, h_2);
+      this->applyStep(initial_S, tmp_S, initial_D, h_2);
       
-      writeDerivative ( M, tmp_S, D2, (t + h_2) );
-      applyStep(initial_S, tmp_S, D2, h_2);
+      this->writeDerivative ( M, tmp_S, D2, (t + h_2) );
+      this->applyStep(initial_S, tmp_S, D2, h_2);
       
-      writeDerivative ( M, tmp_S, D3, (t + h_2) );
-      applyStep(initial_S, tmp_S, D3, h);
+      this->writeDerivative ( M, tmp_S, D3, (t + h_2) );
+      this->applyStep(initial_S, tmp_S, D3, h);
       
-      writeDerivative ( M, tmp_S, D4, (t + h) );
+      this->writeDerivative ( M, tmp_S, D4, (t + h) );
       
       typename Derivative_t::iterator       first_fD =   final_D.begin();
       typename Derivative_t::iterator        last_fD =   final_D.end();
@@ -285,7 +285,7 @@ struct Runge_Kutta_4 : public Solver_Function<TraitsT,DerivativeF,StepF>
       
       Real_t h_6 = h/6.0;
       
-      applyStep(initial_S, final_S, final_D, h_6);
+      this->applyStep(initial_S, final_S, final_D, h_6);
     }
   //@}
   
@@ -365,7 +365,7 @@ struct Modified_Midpoint : public Solver_Function<TraitsT,DerivativeF,StepF>
 		  State_t& final_S,
 		  const Real_t t, const Real_t h)
     {
-      writeDerivative(M, initial_S, D, t);
+      this->writeDerivative(M, initial_S, D, t);
       operator()(M, initial_S, final_S, D, t, h);
     }
   void operator()(const Model_t& M,
@@ -381,24 +381,24 @@ struct Modified_Midpoint : public Solver_Function<TraitsT,DerivativeF,StepF>
       
       S1 = initial_S;
       
-      applyStep(S1, S2, initial_D, hsub); // First substep taken
+      this->applyStep(S1, S2, initial_D, hsub); // First substep taken
       
       // Take remaining substeps minus one
       for (int m = 1; m < (N - 1); m++)
 	{
-	  writeDerivative( M, S2, D, (t + m*hsub) );
-          applyStep(S1, S3, D, hhsub);
+	  this->writeDerivative( M, S2, D, (t + m*hsub) );
+          this->applyStep(S1, S3, D, hhsub);
           S1 = S2;
           S2 = S3;
 	}
       
       // Take last substep
-      writeDerivative( M, S2, D, (t + (N - 1)*hsub) );
-      applyStep(S1, S3, D, hhsub);
+      this->writeDerivative( M, S2, D, (t + (N - 1)*hsub) );
+      this->applyStep(S1, S3, D, hhsub);
       
       // Take full step
-      writeDerivative( M, S3, D, (t + h) );
-      applyStep(S2, S3, final_S, D, hsub ); // Different call operator!
+      this->writeDerivative( M, S3, D, (t + h) );
+      this->applyStep(S2, S3, final_S, D, hsub ); // Different call operator!
     }
   //@}
   
