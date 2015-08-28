@@ -1,12 +1,11 @@
 #
 # move_tetra_ms.pro
-# tmake project file
+# qmake project file
 #
 TEMPLATE	= app
-CONFIG		= opengl debug
+CONFIG		= opengl warn_on debug
 DEFINES		= DAMPED # VOLINFO BENCHMARK MEASURE
 INCLUDEPATH	= .
-LIBS		+= -lglut
-#
+LIBS		+= -lglut -lGLU
 SOURCES		= move_tetra_ms.C
 TARGET		= move_tetra_ms

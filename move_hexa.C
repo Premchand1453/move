@@ -1,5 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdlib>
 #include <time.h>
 #include <sys/time.h>
 #include <fstream>
@@ -167,7 +166,7 @@ void display()
   
   glClear(GL_COLOR_BUFFER_BIT);
   
-  displayText(10, 10, 4e-04, fps);
+  displayText(10, 10, 5e-04, fps);
   
   tb.writeOpenGLTransfMatrix(m);
   
@@ -451,9 +450,9 @@ void parse(int argc, char** argv)
   file_in.getline(line, 256, '\n');
   sscanf(line, "%d %d", &nvertex, &nhexa);
   
+  cout << "Model contains:" << endl;
   cout << nvertex << " vertices" << endl;
   cout << nhexa << " hexaedra" << endl;
-  cout << endl;
   
   for (int nv = 0; nv < nvertex; ++nv)
     {
@@ -786,18 +785,19 @@ void parse(int argc, char** argv)
 	}
     }
   
-  cout << "Nb of hexa missed " << missed.size() << endl;
+  cout << "Nb of hexa missed: " << missed.size() << endl;
   for (std::map<int,int>::iterator firstm = missed.begin();
        firstm != missed.end();
        ++firstm)
     cout << firstm->first << " " << firstm->second << endl;
-  cout << endl;
   
-  cout << "Nb of problems encountered " << problem.size() << endl;
+  cout << "Nb of problems encountered: " << problem.size() << endl;
   for (std::map<int,double>::iterator firstp = problem.begin();
        firstp != problem.end();
        ++firstp)
     cout << firstp->first << " " << firstp->second << endl;
+  
+  cout << "Within animation window, type h for help" << endl;
   cout << endl;
   
   double t = 0.0;

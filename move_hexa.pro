@@ -1,12 +1,11 @@
 #
 # move_hexa.pro
-# tmake project file
+# qmake project file
 #
 TEMPLATE	= app
-CONFIG		= opengl debug
+CONFIG		= opengl warn_on debug
 DEFINES		= ALTERN DAMPED CONSTVOL # SURFACE BENCHMARK
 INCLUDEPATH	= .
-LIBS		+= -lglut
-#
+LIBS		+= -lglut -lGLU
 SOURCES		= intersect_triangle.c move_hexa.C
 TARGET		= move_hexa

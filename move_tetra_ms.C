@@ -1,5 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdlib>
 #include <sys/time.h>
 #include <fstream>
 #include <algorithm>
@@ -158,7 +157,7 @@ void display()
   
   glClear(GL_COLOR_BUFFER_BIT);
   
-  displayText(10, 10, 4e-04, fps);
+  displayText(10, 10, 5e-04, fps);
   
   tb.writeOpenGLTransfMatrix(m);
   
@@ -454,6 +453,7 @@ void parse(int argc, char** argv)
   file_in.getline(line, 256, '\n');
   sscanf(line, "%d %d", &nvertex, &ntetra);
   
+  cout << "Model contains:" << endl;
   cout << nvertex << " vertices" << endl;
   cout << ntetra << " tetrahedra" << endl;
   
@@ -505,7 +505,7 @@ void parse(int argc, char** argv)
       V0 += volume;
 #elif MEASURE
       const Real density = 1000.0; // 1000 kg.m-3 (as water)
-      /* From Gilles Debunne, should be replaced by Voronoï volumes */
+      /* From Gilles Debunne, should be replaced by Voronoi volumes */
       Real mass = 0.25 * density * volume;
       model[(*firstt).p0].m += mass;
       model[(*firstt).p1].m += mass;
@@ -557,6 +557,7 @@ void parse(int argc, char** argv)
   Real ks = 500.0;
   Real kd = 100.0;
 #endif
+  cout << "Simulation parameters:" << endl;
   cout << "ks = " << ks << " kd = " << kd << endl;
   
   for (first = edge_indices.begin();
@@ -570,6 +571,9 @@ void parse(int argc, char** argv)
   double t = 0.0;
   double dt = 0.01; // for 25 Hz
   cout << "dt = " << dt << endl;
+  
+  cout << "Within animation window, type h for help" << endl;
+  cout << endl;
   
 #if MEASURE
   cout << "t x y z" << endl;

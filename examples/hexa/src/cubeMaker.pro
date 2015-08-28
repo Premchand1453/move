@@ -1,10 +1,9 @@
 #
 # cubeMaker.pro
-# tmake project file
+# qmake project file
 #
-TEMPLATE	= app.t
-CONFIG		= 
-INCLUDEPATH = ../../..
-#
+TEMPLATE	= app
+CONFIG		= warn_on debug
+INCLUDEPATH	= ../../..
 SOURCES		= cubeMaker.C
 TARGET		= cubeMaker

@@ -38,7 +38,7 @@ struct Solver_Driver : public Driver_Function<SolverF>
 		  const State_t& initial_S,
                   State_t& final_S)
     {
-      compute(M, initial_S, final_S, date, time_step);
+      this->compute(M, initial_S, final_S, date, time_step);
       date += time_step;
     }
 };
@@ -82,7 +82,7 @@ struct Stepper_Driver : public Driver_Function<StepperF>
 		  const State_t& initial_S,
                   State_t& final_S)
     {
-      compute(M, initial_S, final_S, date, step_try, step_did, step_next);
+      this->compute(M, initial_S, final_S, date, step_try, step_did, step_next);
       date += step_did;
       step_try = step_next;
     }

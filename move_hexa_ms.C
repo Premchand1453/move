@@ -1,5 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdlib>
 #include <sys/time.h>
 #include <fstream>
 #include <algorithm>
@@ -127,7 +126,7 @@ void display()
   
   glClear(GL_COLOR_BUFFER_BIT);
   
-  displayText(10, 10, 4e-04, fps);
+  displayText(10, 10, 5e-04, fps);
   
   tb.writeOpenGLTransfMatrix(m);
   
@@ -382,6 +381,7 @@ void parse(int argc, char** argv)
   file_in.getline(line, 256, '\n');
   sscanf(line, "%d %d", &nvertex, &nhexa);
   
+  cout << "Model contains:" << endl;
   cout << nvertex << " vertices" << endl;
   cout << nhexa << " hexaedra" << endl;
   
@@ -447,6 +447,7 @@ void parse(int argc, char** argv)
   cout << nsprings << " springs" << endl;
   cout << "Mean spring/mass ratio is "
        << static_cast<double>(nsprings)/static_cast<double>(nvertex) << endl;
+  cout << "Within animation window, type h for help" << endl;
   cout << endl;
   
   for (first = edge_indices.begin();
